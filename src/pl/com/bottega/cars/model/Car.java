@@ -93,7 +93,7 @@ public class Car {
     if(!engine.isRunning()) {
       throw new IllegalStateException();
     }
-    double fuelNeeded = distance * engine.calculateFuelConsumption(distance);
+    double fuelNeeded = engine.calculateFuelConsumption(distance);
     if (fuelNeeded > fuelAmount) {
       throw new FuelException(fuelNeeded - fuelAmount);
     }

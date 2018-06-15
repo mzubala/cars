@@ -1,8 +1,6 @@
 package pl.com.bottega.cars.application;
 
-import pl.com.bottega.cars.model.BMWN55;
-import pl.com.bottega.cars.model.Car;
-import pl.com.bottega.cars.model.VAG30TDI;
+import pl.com.bottega.cars.model.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -23,7 +21,7 @@ public class Start {
       }
     });
 
-    Car car = new Car("BMW", 60, new BMWN55());
+    Car car = new HybridCar("BMW", 60, new HybridEngine(new VAG30TDI(), new ElectricEngine()));
     car.run();
     while (true) {
       String userMove = getUserMove();

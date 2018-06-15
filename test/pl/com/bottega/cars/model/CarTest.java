@@ -1,11 +1,19 @@
 package pl.com.bottega.cars.model;
 
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
 import org.junit.Test;
 
 public class CarTest {
 
-  private Car car = new Car("BMW", 50, new VAG30TDI());
+  private Car car;
+
+  @Before
+  public void setup() {
+    car = new Car("BMW", 50, new VAG30TDI());
+    car.run();
+  }
 
   @Test
   public void changesPositionToSpecificPoint() {
@@ -20,6 +28,7 @@ public class CarTest {
   @Test(expected = FuelException.class)
   public void throwsExceptionWhenThereIsNotEnoughFuelToMove() {
     Car car = new Car("BMW", 0, new VAG30TDI());
+    car.run();
 
     car.moveTo(1, 1);
   }
