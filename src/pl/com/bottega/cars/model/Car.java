@@ -1,8 +1,9 @@
 package pl.com.bottega.cars.model;
 
-public class Car {
+public class Car<LoadType> {
 
   private static final double MAX_FUEL_TANK_CAPACITY = 80;
+  private final BodyType bodyType;
 
   private int x, y;
 
@@ -12,12 +13,14 @@ public class Car {
 
   private Engine engine;
 
+  private LoadType load;
+
   public Car(String name, double fuelAmount, Engine engine) {
-    this(name, fuelAmount, 0, 0, engine);
+    this(name, fuelAmount, 0, 0, engine, BodyType.SEDAN);
   }
 
-  public Car(String name, double fuelAmount, int x, int y, Engine engine) {
-    if(x < 0 || y < 0 || fuelAmount > MAX_FUEL_TANK_CAPACITY) {
+  public Car(String name, double fuelAmount, int x, int y, Engine engine, BodyType bodyType) {
+    if (x < 0 || y < 0 || fuelAmount > MAX_FUEL_TANK_CAPACITY) {
       throw new IllegalArgumentException();
     }
     this.x = x;
@@ -25,6 +28,7 @@ public class Car {
     this.name = name;
     this.fuelAmount = Math.min(fuelAmount, MAX_FUEL_TANK_CAPACITY);
     this.engine = engine;
+    this.bodyType = bodyType;
   }
 
   public void left() {
@@ -63,7 +67,7 @@ public class Car {
     if (this.x + x < 0 || this.y + y < 0) {
       throw new IllegalArgumentException();
     }
-    if(!engine.isRunning()) {
+    if (!engine.isRunning()) {
       throw new IllegalStateException();
     }
     double distance = (double) Math.abs(x) + Math.abs(y);
@@ -90,7 +94,7 @@ public class Car {
     if (x < 0 || y < 0) {
       throw new IllegalArgumentException();
     }
-    if(!engine.isRunning()) {
+    if (!engine.isRunning()) {
       throw new IllegalStateException();
     }
     double fuelNeeded = engine.calculateFuelConsumption(distance);
@@ -128,5 +132,19 @@ public class Car {
 
   public String toString() {
     return String.format("x=%d y=%d fuel=%f", x, y, fuelAmount);
+  }
+
+  public int getDoorsCount() {
+    return bodyType.getDoorsCount();
+  }
+
+  public void load(LoadType load) {
+    this.load = load;
+  }
+
+  public LoadType unload() {
+    LoadType tmp = load;
+    load = null;
+    return tmp;
   }
 }

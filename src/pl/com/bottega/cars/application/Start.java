@@ -9,9 +9,11 @@ import java.util.Scanner;
 public class Start {
 
   public static void main(String[] args) {
-    Car c1 = new Car("BMW", 60, new BMWN55());
+    Car<ElectricEngine> c1 = new Car<>("BMW", 60, new BMWN55());
     Car c2 = new Car("Fiat", 60, new VAG30TDI());
 
+    c1.load(new ElectricEngine());
+    ElectricEngine x = c1.unload();
 
     Car[] cars = new Car[]{c1, c2};
     Arrays.sort(cars, new Comparator<Car>() {
@@ -22,6 +24,7 @@ public class Start {
     });
 
     Car car = new HybridCar("BMW", 60, new HybridEngine(new VAG30TDI(), new ElectricEngine()));
+    System.out.println(car.getDoorsCount());
     car.run();
     while (true) {
       String userMove = getUserMove();

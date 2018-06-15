@@ -6,8 +6,8 @@ public class HybridCar extends Car {
     super(name, fuelAmount, engine);
   }
 
-  public HybridCar(String name, double fuelAmount, int x, int y, HybridEngine engine) {
-    super(name, fuelAmount, x, y, engine);
+  public HybridCar(String name, double fuelAmount, int x, int y, HybridEngine engine, BodyType bodyType) {
+    super(name, fuelAmount, x, y, engine, bodyType);
   }
   
 }
