@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class CarTest {
 
-  private Car car = new Car("BMW", 50, 10);
+  private Car car = new Car("BMW", 50, new VAG30TDI());
 
   @Test
   public void changesPositionToSpecificPoint() {
@@ -19,7 +19,7 @@ public class CarTest {
 
   @Test(expected = FuelException.class)
   public void throwsExceptionWhenThereIsNotEnoughFuelToMove() {
-    Car car = new Car("BMW", 0, 10);
+    Car car = new Car("BMW", 0, new VAG30TDI());
 
     car.moveTo(1, 1);
   }

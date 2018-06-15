@@ -1,7 +1,5 @@
 package pl.com.bottega.cars.model;
 
-import java.io.IOException;
-
 public class Car {
 
   private static final double MAX_FUEL_TANK_CAPACITY = 80;
@@ -10,14 +8,15 @@ public class Car {
 
   private String name;
 
-  private double fuelAmount = MAX_FUEL_TANK_CAPACITY,
-      fuelConsumption = 10;
+  private double fuelAmount = MAX_FUEL_TANK_CAPACITY;
 
-  public Car(String name, double fuelAmount, double fuelConsumption) {
-    this(name, fuelAmount, fuelConsumption, 0, 0);
+  private Engine engine;
+
+  public Car(String name, double fuelAmount, Engine engine) {
+    this(name, fuelAmount, 0, 0, engine);
   }
 
-  public Car(String name, double fuelAmount, double fuelConsumption, int x, int y) {
+  public Car(String name, double fuelAmount, int x, int y, Engine engine) {
     if(x < 0 || y < 0 || fuelAmount > MAX_FUEL_TANK_CAPACITY) {
       throw new IllegalArgumentException();
     }
@@ -25,7 +24,7 @@ public class Car {
     this.y = y;
     this.name = name;
     this.fuelAmount = Math.min(fuelAmount, MAX_FUEL_TANK_CAPACITY);
-    this.fuelConsumption = fuelConsumption;
+    this.engine = engine;
   }
 
   public void left() {
@@ -64,8 +63,11 @@ public class Car {
     if (this.x + x < 0 || this.y + y < 0) {
       throw new IllegalArgumentException();
     }
+    if(!engine.isRunning()) {
+      throw new IllegalStateException();
+    }
     double distance = (double) Math.abs(x) + Math.abs(y);
-    double fuelNeeded = distance * fuelConsumption;
+    double fuelNeeded = engine.calculateFuelConsumption(distance);
     if (fuelNeeded > fuelAmount) {
       throw new FuelException(fuelNeeded - fuelAmount);
     }
@@ -88,13 +90,24 @@ public class Car {
     if (x < 0 || y < 0) {
       throw new IllegalArgumentException();
     }
-    double fuelNeeded = distance * fuelConsumption;
+    if(!engine.isRunning()) {
+      throw new IllegalStateException();
+    }
+    double fuelNeeded = distance * engine.calculateFuelConsumption(distance);
     if (fuelNeeded > fuelAmount) {
       throw new FuelException(fuelNeeded - fuelAmount);
     }
     this.x = x;
     this.y = y;
     fuelAmount -= fuelNeeded;
+  }
+
+  public void run() {
+    engine.start();
+  }
+
+  public void stop() {
+    engine.stop();
   }
 
   public int getX() {
