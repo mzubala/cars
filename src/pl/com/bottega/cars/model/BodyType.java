@@ -20,4 +20,7 @@ public enum BodyType {
     return doorsCount;
   }
 
+  public boolean canFitMoreThan(int size) {
+    return size < passengerCount;
+  }
 }

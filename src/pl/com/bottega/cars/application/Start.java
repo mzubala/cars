@@ -4,16 +4,38 @@ import pl.com.bottega.cars.model.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Start {
 
   public static void main(String[] args) {
-    Car<ElectricEngine> c1 = new Car<>("BMW", 60, new BMWN55());
+    Car<String> c1 = new Car<>("BMW", 60, new BMWN55());
     Car c2 = new Car("Fiat", 60, new VAG30TDI());
 
-    c1.load(new ElectricEngine());
-    ElectricEngine x = c1.unload();
+    c1.load("whiskey");
+    c1.load("lm");
+    c1.load("bimber");
+
+    List<String> kontrabanda = c1.unload();
+
+    Human human = new Human("Stefan Motyka");
+    Human klon = new Human("Stefan Motyka");
+    c1.getIn(human);
+    c1.getIn(klon);
+    c1.getIn(human);
+
+    Parking parking = new Parking();
+    parking.park(c1);
+    parking.park(c2);
+    parking.park(c1);
+    parking.park(c1);
+    parking.park(c1);
+    parking.display();
+    parking.leave(c1);
+    parking.display();
+    parking.leave(c2);
+    parking.display();
 
     Car[] cars = new Car[]{c1, c2};
     Arrays.sort(cars, new Comparator<Car>() {

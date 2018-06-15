@@ -1,5 +1,7 @@
 package pl.com.bottega.cars.model;
 
+import java.util.*;
+
 public class Car<LoadType> {
 
   private static final double MAX_FUEL_TANK_CAPACITY = 80;
@@ -13,7 +15,9 @@ public class Car<LoadType> {
 
   private Engine engine;
 
-  private LoadType load;
+  private List<LoadType> load = new ArrayList<>();
+
+  private Collection<Human> passengers = new HashSet<>();
 
   public Car(String name, double fuelAmount, Engine engine) {
     this(name, fuelAmount, 0, 0, engine, BodyType.SEDAN);
@@ -139,12 +143,24 @@ public class Car<LoadType> {
   }
 
   public void load(LoadType load) {
-    this.load = load;
+    this.load.add(load);
   }
 
-  public LoadType unload() {
-    LoadType tmp = load;
-    load = null;
+  public List<LoadType> unload() {
+    List<LoadType> tmp = new ArrayList<>();
+    tmp.addAll(load);
+    load.clear();
     return tmp;
+  }
+
+  public void getIn(Human human) {
+    if(!bodyType.canFitMoreThan(passengers.size())) {
+      throw new IllegalStateException();
+    }
+    passengers.add(human);
+  }
+
+  public void getOut(Human human) {
+    passengers.remove(human);
   }
 }

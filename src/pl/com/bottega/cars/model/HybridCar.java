@@ -1,6 +1,6 @@
 package pl.com.bottega.cars.model;
 
-public class HybridCar extends Car {
+public class HybridCar<LoadType> extends Car<LoadType> {
 
   public HybridCar(String name, double fuelAmount, HybridEngine engine) {
     super(name, fuelAmount, engine);
